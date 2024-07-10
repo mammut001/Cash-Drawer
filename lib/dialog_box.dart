@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
 
-class DialogBox extends StatelessWidget {
-  String _title = "";
+class DialogBox extends StatefulWidget {
+  const DialogBox({super.key});
 
+  @override
+  _DialogBoxState createState() => _DialogBoxState();
+}
+
+class _DialogBoxState extends State<DialogBox> {
   final TextEditingController _titleController = TextEditingController();
 
+  @override
   void initState(){
+    super.initState();
+    _titleController.text = "";
+  }
+  @override
+  void dispose(){
+    _titleController.dispose();
+    super.dispose();
 
   }
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Dialog"),
-      content: const Column(
+      title: const Text("Alert Box"),
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text("Enter customized name"),
           SizedBox(
             width: 200,
             child: TextField(
-              keyboardType: TextInputType.number,
+              controller: _titleController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Name',
@@ -34,7 +47,7 @@ class DialogBox extends StatelessWidget {
           child: const Text('Cancel'),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
+          onPressed: () => Navigator.pop(context, _titleController.text),
           child: const Text('OK'),
         ),
       ],

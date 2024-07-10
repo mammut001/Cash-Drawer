@@ -25,7 +25,10 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
+
   final String title;
+
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -56,20 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _fiftyController = TextEditingController();
   final TextEditingController _hundredController = TextEditingController();
 
+
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
   }
 
-  void _showDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DialogBox();
-      },
-    );
-  }
 
   void _updateTotal(){
     setState(() {
@@ -150,6 +146,19 @@ class _MyHomePageState extends State<MyHomePage> {
         _updateTotal();
       });
     });
+  }
+  void _showDialog(BuildContext ctx) async{
+    final returnedResultFromWidget = await showDialog<String>(
+        context: ctx,
+        builder: (BuildContext context){
+          return const DialogBox();
+        });
+
+    if (returnedResultFromWidget != null) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(content: Text('$returnedResultFromWidget has been added')),
+      );
+    }
   }
 
   @override
