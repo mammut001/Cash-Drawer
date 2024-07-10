@@ -59,7 +59,15 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _fiftyController = TextEditingController();
   final TextEditingController _hundredController = TextEditingController();
 
-
+  final List<TextEditingController> _controllers = [];
+  void _addController(){
+    setState(() {
+      _controllers.add(TextEditingController());
+      _controllers.last.addListener((){
+        _updateTotal();
+      });
+    });
+  }
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -70,6 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void _updateTotal(){
     setState(() {
       _total = _fivecents + _tencents + _twofivecents + _loonie + _toonie + _five + _ten + _twenty + _fifty + _hundred;
+
+      _total += _controllers
+          .map((controller) => double.tryParse(controller.text) ?? 0.0)
+          .reduce((val, ele)=>val + ele);
     });
   }
 
@@ -158,11 +170,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(content: Text('$returnedResultFromWidget has been added')),
       );
+      _controllers.add(TextEditingController()..addListener(_updateTotal));
     }
   }
 
   @override
   void dispose() {
+    _controllers.map((controller)=> controller.dispose());
+
     _fivecentsController.dispose();
     _tenCentsController.dispose();
     _twofivecentsController.dispose();
@@ -458,6 +473,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+              for(int i = 0; i < _controllers.length; i++ )
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: TextField(
+                          controller: _controllers[i],
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            hintText: 'Enter value',
+                            labelText: 'Value ${i + 1}',
+                          ),
+
+                        ),
+                      ),
+                      Text(
+                        (_controllers[i].text.isEmpty
+                            ?0
+                            :double.tryParse(_controllers[i].text)??0.0).toStringAsFixed(2),
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+
+                    ],
+                  ) ,
+                ),
               Text(
                 "Total: ${_total.toStringAsFixed(2)}",
                 style: Theme.of(context).textTheme.headlineMedium,
