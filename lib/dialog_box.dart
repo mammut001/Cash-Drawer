@@ -43,7 +43,7 @@ class _DialogBoxState extends State<DialogBox> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
+          onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
         TextButton(

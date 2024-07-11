@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double _hundred = 0.0;
   double _total = 0.0;
 
+  String newName = "";
   final TextEditingController _fivecentsController = TextEditingController();
   final TextEditingController _tenCentsController = TextEditingController();
   final TextEditingController _twofivecentsController = TextEditingController();
@@ -60,9 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _hundredController = TextEditingController();
 
   final List<TextEditingController> _controllers = [];
-  void _addController(){
+  final List<String> _names = [];
+
+  void _addController(String name){
     setState(() {
       _controllers.add(TextEditingController());
+      _names.add(name);
       _controllers.last.addListener((){
         _updateTotal();
       });
@@ -166,11 +170,15 @@ class _MyHomePageState extends State<MyHomePage> {
           return const DialogBox();
         });
 
-    if (returnedResultFromWidget != null) {
+    if (returnedResultFromWidget != null && returnedResultFromWidget.isNotEmpty) {
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(content: Text('$returnedResultFromWidget has been added')),
       );
-      _controllers.add(TextEditingController()..addListener(_updateTotal));
+      _addController(returnedResultFromWidget);
+
+    }
+    else{
+      const SnackBar(content: Text('Canceled'));
     }
   }
 
@@ -487,7 +495,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: 'Enter value',
-                            labelText: 'Value ${i + 1}',
+                            labelText: _names[i],
                           ),
 
                         ),
