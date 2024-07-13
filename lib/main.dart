@@ -1,7 +1,5 @@
 import 'package:cash_drawer/dialog_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'dialog_box.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -82,10 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _updateTotal(){
     setState(() {
       _total = _fivecents + _tencents + _twofivecents + _loonie + _toonie + _five + _ten + _twenty + _fifty + _hundred;
+      if(_controllers.isNotEmpty){
+        _total += _controllers
+            .map((controller) => double.tryParse(controller.text) ?? 0.0)
+            .reduce((val, ele)=>val + ele);
 
-      _total += _controllers
-          .map((controller) => double.tryParse(controller.text) ?? 0.0)
-          .reduce((val, ele)=>val + ele);
+      }
     });
   }
 
@@ -481,34 +481,34 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              for(int i = 0; i < _controllers.length; i++ )
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: TextField(
-                          controller: _controllers[i],
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'Enter value',
-                            labelText: _names[i],
-                          ),
-
+              for (int i = 0; i < _controllers.length; i++)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              width: 200,
+                              child: TextField(
+                                controller: _controllers[i],
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  hintText: 'Enter value',
+                                  labelText: _names[i],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        (_controllers[i].text.isEmpty
-                            ?0
-                            :double.tryParse(_controllers[i].text)??0.0).toStringAsFixed(2),
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-
-                    ],
-                  ) ,
+                    ),
+                  ],
                 ),
               Text(
                 "Total: ${_total.toStringAsFixed(2)}",
