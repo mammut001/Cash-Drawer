@@ -1,5 +1,6 @@
 import 'package:cash_drawer/dialog_box.dart';
 import 'package:flutter/material.dart';
+import 'warning.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -94,10 +95,17 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     _hundredController.addListener(() {
-      setState(() {
-        _hundred = (double.tryParse(_hundredController.text) ?? 0.0) * 100;
-        _updateTotal();
-      });
+      final value = double.tryParse(_hundredController.text) ?? 0.0;
+      if (value > 100) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showWarning(context);
+        });
+      } else {
+        setState(() {
+          _hundred = value * 100;
+          _updateTotal();
+        });
+      }
     });
 
     _fiftyController.addListener(() {
@@ -162,6 +170,15 @@ class _MyHomePageState extends State<MyHomePage> {
         _updateTotal();
       });
     });
+  }
+  
+  void _showWarning(BuildContext ctx) async {
+    final result = await showDialog<String>(
+        context: ctx,
+        builder: (BuildContext context){
+          return Warning(msg: "ERROR");
+        });
+
   }
   void _showDialog(BuildContext ctx) async{
     final returnedResultFromWidget = await showDialog<String>(
@@ -234,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _fivecents.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -261,7 +278,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _tencents.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -288,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _twofivecents.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -315,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _loonie.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -342,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _toonie.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -369,7 +386,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _five.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -396,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _ten.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -423,7 +440,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _twenty.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -450,7 +467,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _fifty.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -477,7 +494,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     _hundred.toStringAsFixed(2),
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -488,23 +505,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(40),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(
-                              width: 200,
-                              child: TextField(
-                                controller: _controllers[i],
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  hintText: 'Enter value',
-                                  labelText: _names[i],
-                                ),
-                              ),
-                            ),
-                          ],
+                            Expanded(child: TextField(
+                        controller: _controllers[i],
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              hintText: 'Enter value',
+                              labelText: _names[i],
+                            )),
+
+                            )],
                         ),
                       ),
                     ),
