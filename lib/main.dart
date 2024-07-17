@@ -1,6 +1,8 @@
 import 'package:cash_drawer/dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'warning.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
+import 'dart:io' show Platform;
 void main() {
   runApp(const MyApp());
 }
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Cash Drawer',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -198,6 +200,17 @@ class _MyHomePageState extends State<MyHomePage> {
       const SnackBar(content: Text('Canceled'));
     }
   }
+  double _calculatePadding(BuildContext ctx) {
+    double screenWidth = MediaQuery.of(ctx).size.width;
+    if (kIsWeb) {
+      return 0.27 * screenWidth;
+    } else {
+      return 0.12 * screenWidth;
+    }
+  }
+
+
+
 
   @override
   void dispose() {
@@ -228,13 +241,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('5 Cents'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -246,6 +254,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '0.05',
+                        labelText: '\$0.05',
+
                       ),
                     ),
                   ),
@@ -255,13 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('10 Cents'),
-                ),
-              ),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -273,6 +277,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '0.1',
+                        labelText: '\$0.10',
+
                       ),
                     ),
                   ),
@@ -282,13 +288,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('25 Cents'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -300,6 +301,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '0.25',
+                        labelText: '\$0.25',
+
                       ),
                     ),
                   ),
@@ -309,13 +312,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('Loonie'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -327,6 +325,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '1',
+                        labelText: 'Loonie',
+
                       ),
                     ),
                   ),
@@ -336,13 +336,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('Toonie'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -354,6 +349,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '2',
+                        labelText: 'Toonie',
+
+
                       ),
                     ),
                   ),
@@ -363,13 +361,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('\$5'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -381,6 +374,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '5',
+                        labelText: '\$5',
+
                       ),
                     ),
                   ),
@@ -390,13 +385,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('\$10'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -408,6 +398,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '10',
+                        labelText: '\$10',
+
                       ),
                     ),
                   ),
@@ -417,13 +409,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('\$20'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -435,6 +422,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '20',
+                        labelText: '\$20',
+
                       ),
                     ),
                   ),
@@ -444,13 +433,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('\$50'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -462,6 +446,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '50',
+                        labelText: '\$50',
+
                       ),
                     ),
                   ),
@@ -471,13 +457,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('\$100'),
-                ),
-              ),
+              const SizedBox(height: 10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -489,6 +470,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '100',
+                        labelText: '\$100',
                       ),
                     ),
                   ),
@@ -498,32 +480,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              for (int i = 0; i < _controllers.length; i++)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(40),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(child: TextField(
-                        controller: _controllers[i],
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              hintText: 'Enter value',
-                              labelText: _names[i],
-                            )),
+              const SizedBox(height: 10),
 
-                            )],
-                        ),
-                      ),
+              for (int i = 0; i < _controllers.length; i++)
+                Padding(
+                    padding: EdgeInsets.only(
+                      left: _calculatePadding(context),
+                      right: _calculatePadding(context),
+                      bottom: 10.0,
                     ),
-                  ],
-                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(child: TextField(
+                        controller: _controllers[i],
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          hintText: 'Enter value',
+                          labelText: _names[i],
+                        )),
+
+                    )],
+                )),
+              const SizedBox(height: 10),
+
               Text(
                 "Total: ${_total.toStringAsFixed(2)}",
                 style: Theme.of(context).textTheme.headlineMedium,
