@@ -1,8 +1,7 @@
 import 'package:cash_drawer/dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'warning.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 void main() {
   runApp(const MyApp());
 }
@@ -202,10 +201,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   double _calculatePadding(BuildContext ctx) {
     double screenWidth = MediaQuery.of(ctx).size.width;
-    if (kIsWeb) {
-      return 0.27 * screenWidth;
-    } else {
+
+    if(kIsWeb){
+      if (screenWidth > 600) {
+        return 0.27 * screenWidth;
+      } else {
+        return 0.10 * screenWidth;
+      }
+    }
+    else{
       return 0.12 * screenWidth;
+
     }
   }
 
