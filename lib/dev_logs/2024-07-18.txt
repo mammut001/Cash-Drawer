@@ -1,0 +1,7 @@
+2024-07-18 12:01:15
+      21 ./warning.dart
+      54 ./main.dart
+      56 ./dialog_box.dart
+     504 ./calculator.dart
+     635 total
+-------------------
