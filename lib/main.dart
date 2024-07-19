@@ -1,3 +1,4 @@
+import 'package:cash_drawer/chart.dart';
 import 'package:flutter/material.dart';
 import 'calculator.dart';
 
@@ -44,7 +45,7 @@ class MyHomePage extends StatelessWidget {
           body: const TabBarView(
             children: [
               Calculator(),
-              Icon(Icons.directions_car),
+              Chart(),
             ],
           ),
         ),
