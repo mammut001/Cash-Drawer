@@ -7,11 +7,25 @@ class Calculator extends StatefulWidget {
   const Calculator({super.key});
 
   @override
-  State<Calculator> createState() => _CalculatorState();
+  State<Calculator> createState() => CalculatorState();
 }
 
-class _CalculatorState extends State<Calculator> {
+class CalculatorState extends State<Calculator> {
   int _counter = 0;
+  static final Map<String, int> numberOccurrence = {
+    '\$0.05': 0,
+    '\$0.10': 0,
+    '\$0.25': 0,
+    '\$1': 0,
+    '\$2': 0,
+    '\$5': 0,
+    '\$10': 0,
+    '\$20': 0,
+    '\$50': 0,
+    '\$100': 0,
+  };
+
+
   double _fivecents = 0.0;
   double _tencents = 0.0;
   double _twofivecents = 0.0;
@@ -79,6 +93,7 @@ class _CalculatorState extends State<Calculator> {
         });
       } else {
         setState(() {
+          numberOccurrence['\$100']! + 1;
           _hundred = value * 100;
           _updateTotal();
         });
@@ -89,6 +104,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _fifty = (double.tryParse(_fiftyController.text) ?? 0.0) * 50;
         _updateTotal();
+        numberOccurrence['\$50']! + 1;
+
       });
     });
 
@@ -96,6 +113,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _twenty = (double.tryParse(_twentyController.text) ?? 0.0) * 20;
         _updateTotal();
+        numberOccurrence['\$20']! + 1;
+
       });
     });
 
@@ -103,6 +122,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _ten = (double.tryParse(_tenController.text) ?? 0.0) * 10;
         _updateTotal();
+        numberOccurrence['\$10']! + 1;
+
       });
     });
 
@@ -110,6 +131,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _five = (double.tryParse(_fiveController.text) ?? 0.0) * 5;
         _updateTotal();
+        numberOccurrence['\$5']! + 1;
+
       });
     });
 
@@ -117,6 +140,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _toonie = (double.tryParse(_toonieController.text) ?? 0.0) * 2;
         _updateTotal();
+        numberOccurrence['\$2']! + 1;
+
       });
     });
 
@@ -124,6 +149,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _loonie = (double.tryParse(_loonieController.text) ?? 0.0) * 1;
         _updateTotal();
+        numberOccurrence['\$1']! + 1;
+
       });
     });
 
@@ -131,6 +158,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _twofivecents = (double.tryParse(_twofivecentsController.text) ?? 0.0) * 0.25;
         _updateTotal();
+        numberOccurrence['\$0.25']! + 1;
+
       });
     });
 
@@ -138,6 +167,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _tencents = (double.tryParse(_tenCentsController.text) ?? 0.0) * 0.1;
         _updateTotal();
+        numberOccurrence['\$0.1']! + 1;
+
       });
     });
 
@@ -145,6 +176,8 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         _fivecents = (double.tryParse(_fivecentsController.text) ?? 0.0) * 0.05;
         _updateTotal();
+        numberOccurrence['\$0.0.5']! + 1;
+
       });
     });
   }
@@ -169,6 +202,7 @@ class _CalculatorState extends State<Calculator> {
         SnackBar(content: Text('$returnedResultFromWidget has been added')),
       );
       _addController(returnedResultFromWidget);
+
 
     }
     else{

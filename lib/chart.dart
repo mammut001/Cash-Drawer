@@ -2,20 +2,24 @@ import 'package:fl_chart/fl_chart.dart';
 import 'presentation/resources/app_resources.dart';
 import 'presentation/widgets/indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:cash_drawer/calculator.dart';
 
 class Chart extends StatelessWidget {
   const Chart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: PieChartSample2(),
+    final numberOccurrence = CalculatorState.numberOccurrence;
+    return Center(
+      child: PieChartSample2(numberOccurrence: numberOccurrence),
     );
   }
 }
 
 class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+  final Map<String, int> numberOccurrence;
+
+  const PieChartSample2({super.key, required this.numberOccurrence});
 
   @override
   State<StatefulWidget> createState() => PieChart2State();
@@ -23,6 +27,16 @@ class PieChartSample2 extends StatefulWidget {
 
 class PieChart2State extends State<PieChartSample2> {
   int touchedIndex = -1;
+  late Map<String, Color> colors;
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    colors = {};
+    widget.numberOccurrence.keys.forEach((key){
+      colors[key] = AppColors.randomColor();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,42 +76,48 @@ class PieChart2State extends State<PieChartSample2> {
               ),
             ),
           ),
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'First',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Second',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorPurple,
-                text: 'Third',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorGreen,
-                text: 'Fourth',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 18,
-              ),
+              for (var entry in widget.numberOccurrence.entries)
+                Indicator(color: colors[entry.key]!, text: entry.key, isSquare: true), const SizedBox(height: 4,),
+              // Indicator(
+              //   color: AppColors.contentColorBlue,
+              //   text: widget.numberOccurrence['\$100']?.toString() ?? '\$100',
+              //   isSquare: true,
+              // ),
+              // SizedBox(
+              //   height: 4,
+              // ),
+              //
+              // Indicator(
+              //   color: AppColors.contentColorYellow,
+              //   text: 'Second',
+              //   isSquare: true,
+              // ),
+              // SizedBox(
+              //   height: 4,
+              // ),
+              //
+              // Indicator(
+              //   color: AppColors.contentColorPurple,
+              //   text: 'Third',
+              //   isSquare: true,
+              // ),
+              // SizedBox(
+              //   height: 4,
+              // ),
+              //
+              // Indicator(
+              //   color: AppColors.contentColorGreen,
+              //   text: 'Fourth',
+              //   isSquare: true,
+              // ),
+              // SizedBox(
+              //   height: 18,
+              // ),
+              //
             ],
           ),
           const SizedBox(
